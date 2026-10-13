@@ -136,57 +136,22 @@
   --error-content: oklch(20.8% 0.042 265.755);
 }
 
-/* ==========================================================================
- * ADAPTADOR AL FRAMEWORK DE UI — la ÚNICA parte de este archivo que depende de
- * una tecnología concreta. Todo lo de arriba es CSS estándar y no se toca.
- *
- * Lo que viene abajo es UN EJEMPLO, escrito para Tailwind v4 porque hacía falta
- * uno completo que se pudiera leer. No es la opción recomendada ni la única
- * soportada: **el diseño se puede montar como quieras**. Borra este bloque y
- * escribe el enganche de tu stack, sea cual sea.
- *
- * La forma del adaptador cambia con cada tecnología —un mapa de custom
- * properties, un archivo de variables, un objeto de tema en JS, nada en
- * absoluto si usas CSS a pelo—. Lo que no cambia son dos reglas:
- *
- *   1. **El adaptador referencia `var(--…)`, nunca copia el valor.** Una copia
- *      congela el tema y el toggle claro/oscuro deja de funcionar en runtime.
- *   2. **Traduce roles, no colores.** Al otro lado del adaptador se habla de
- *      `primary` y `base-content`, nunca de «azul».
- * ========================================================================== */
+/* ADAPTADOR: ninguno. Snake App usa CSS nativo, que lee estas custom properties
+ * directamente (ver docs/architecture/stack.md). */
 
-@theme inline {
-  --color-base-100: var(--base-100);
-  --color-base-200: var(--base-200);
-  --color-base-300: var(--base-300);
-  --color-base-content: var(--base-content);
+/* ---- Pantalla LCD ----
+ * Fuera de los bloques de tema a propósito: es la réplica de una pantalla física
+ * y se ve igual en claro y en oscuro. Valores medidos sobre
+ * docs/product/referencia.jpeg (ver specs/0001-juego-base/design.md). */
 
-  --color-primary: var(--primary);
-  --color-primary-content: var(--primary-content);
-  --color-secondary: var(--secondary);
-  --color-secondary-content: var(--secondary-content);
-  --color-accent: var(--accent);
-  --color-accent-content: var(--accent-content);
-  --color-neutral: var(--neutral);
-  --color-neutral-content: var(--neutral-content);
+:root {
+  --lcd-screen: rgb(144 195 2); /* fondo de la pantalla */
+  --lcd-ink: rgb(0 0 0); /* puntos, marco y texto del marcador */
+  --lcd-divider: rgb(41 59 0); /* línea entre el tablero y el marcador */
+  --lcd-checker-a: rgb(130 177 2); /* damero de la página, cuadro oscuro */
+  --lcd-checker-b: rgb(156 193 53); /* damero de la página, cuadro claro */
 
-  --color-info: var(--info);
-  --color-info-content: var(--info-content);
-  --color-success: var(--success);
-  --color-success-content: var(--success-content);
-  --color-warning: var(--warning);
-  --color-warning-content: var(--warning-content);
-  --color-error: var(--error);
-  --color-error-content: var(--error-content);
-
-  /* Geometría — `rounded-field` en campos y botones, `rounded-box` en cards */
-  --radius-field: var(--field);
-  --radius-box: var(--box);
-
-  /* Tipografía — `font-sans`, `font-display`, `font-mono` */
-  --font-sans: var(--sans);
-  --font-display: var(--display);
-  --font-mono: var(--mono);
+  --lcd-label: "Orbitron", ui-sans-serif, system-ui, sans-serif; /* rótulos */
 }
 
 /* ---- Geometría, tipografía y motion ----

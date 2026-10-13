@@ -58,6 +58,7 @@ en `docs/` — este archivo es su único índice; léelo antes de un trabajo no 
 python3 -m http.server 8000                    # ejecutar localmente → http://localhost:8000
 node --test                                    # ejecutar la suite de pruebas (Node.js ≥ 22)
 bash .github/scripts/format.sh --check         # formato (Prettier vía npx)
+npx prettier@3.9.6 --check js tests            # formato del JavaScript
 ```
 
 > El juego se sirve por HTTP, no con `file://`: los módulos ES (`<script type="module">`)

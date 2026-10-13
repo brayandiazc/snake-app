@@ -17,7 +17,8 @@ abrir, jugar, batir tu récord. Nada más, y nada menos.
 
 ## Estado actual
 
-Documentación instanciada; aún no hay código del juego.
+La v0.1 está implementada en `develop`: el juego completo, a falta de publicarlo en
+Vercel. Ver `specs/0001-juego-base/`.
 
 ## Por versión / fase
 
@@ -27,28 +28,30 @@ contrato queden atados:
 
 ### v0.1 — Réplica fiel de la referencia
 
-- [ ] 📋 Tablero LCD: fondo verde, borde y cuadrícula de píxeles negros.
-- [ ] 📋 Serpiente que se mueve, crece al comer y muere al chocar.
-- [ ] 📋 Comida en forma de rombo en una celda libre al azar.
-- [ ] 📋 Barra inferior con Score, Speed y Record.
-- [ ] 📋 Récord guardado en el navegador.
-- [ ] 📋 Controles con teclado (flechas, pausa) y con gestos táctiles.
-- [ ] 📋 Textos en español e inglés.
-- [ ] 📋 Metadatos SEO y Open Graph de la página.
+- [x] ✅ Tablero LCD: fondo verde, borde y cuadrícula de píxeles negros. (`specs/0001-juego-base/`)
+- [x] ✅ Serpiente que se mueve, crece al comer y muere al chocar. (`specs/0001-juego-base/`)
+- [x] ✅ Comida en forma de rombo en una celda libre al azar. (`specs/0001-juego-base/`)
+- [x] ✅ Barra inferior con Score, Speed y Record. (`specs/0001-juego-base/`)
+- [x] ✅ Récord guardado en el navegador. (`specs/0001-juego-base/`)
+- [x] ✅ Controles con teclado (flechas, pausa) y con gestos táctiles. (`specs/0001-juego-base/`)
+- [x] ✅ Textos en español e inglés. (`specs/0001-juego-base/`)
+- [x] ✅ Metadatos SEO y Open Graph de la página. (`specs/0001-juego-base/`)
 
 Reglas de juego decididas (2026-10-13), que la referencia no muestra:
 
 - **El borde no mata**: la serpiente sale por un lado y aparece por el opuesto. Solo
   pierde al chocar consigo misma.
 - **Cada comida vale 1 punto**, sin importar la velocidad.
-- **La velocidad sube sola**: Speed arranca en 1 y sube 1 cada 5 comidas, hasta 9. El
-  ritmo exacto se ajusta jugando, en la spec.
+- **La velocidad sube sola**: Speed arranca en 1 y sube 1 cada 5 comidas, hasta 9
+  (de 300 ms a 100 ms por paso). El ritmo se ajusta jugando.
 
 ## Backlog / ideas sin agendar
 
 - Laberintos como niveles.
 - Jugar sin conexión e instalarlo (PWA).
 - Ranking online (exige backend; ver `docs/architecture/database.md`).
+- Jugar en vertical en el móvil: el tablero es apaisado (33 × 21) como el original, y
+  en un teléfono en vertical queda pequeño. Girarlo cambiaría el juego.
 
 ## Fuera de alcance
 
