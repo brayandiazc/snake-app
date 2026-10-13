@@ -1,0 +1,175 @@
+/* Snake App — el dispositivo LCD. Medidas en celdas (--cell, en px CSS), que
+ * calcula main.js según el espacio disponible. Proporciones tomadas de
+ * docs/product/referencia.jpeg — ver specs/0001-juego-base/design.md.
+ * Solo tokens de design/tokens.css: ningún color se escribe aquí. */
+
+@font-face {
+  font-family: "Orbitron";
+  src: url("/assets/fonts/orbitron-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-display: swap;
+}
+
+:root {
+  --cell: 32px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100dvh;
+  /* Damero de cuadros de 10 px, como el fondo de la referencia. */
+  background: repeating-conic-gradient(
+      var(--lcd-checker-a) 0 25%,
+      var(--lcd-checker-b) 0 50%
+    )
+    0 0 / 20px 20px;
+  color: var(--lcd-ink);
+  font-family: var(--lcd-label);
+}
+
+.page {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+}
+
+.device {
+  background: var(--lcd-screen);
+  border: calc(var(--cell) * 0.15) solid var(--lcd-ink);
+  border-radius: calc(var(--cell) * 0.25);
+  overflow: hidden;
+  /* Deslizar el dedo sobre el juego gira la serpiente, no mueve la página. */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.screen {
+  position: relative;
+}
+
+.board {
+  display: block;
+  image-rendering: pixelated;
+}
+
+.status {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* En el tercio superior: el centro es donde está la serpiente al empezar. */
+  justify-content: flex-start;
+  padding-top: calc(var(--cell) * 3.5);
+  gap: calc(var(--cell) * 0.3);
+  text-align: center;
+  pointer-events: none;
+}
+
+.status[hidden] {
+  display: none;
+}
+
+.status p {
+  margin: 0;
+}
+
+.status-title {
+  font-size: calc(var(--cell) * 1.1);
+  text-transform: uppercase;
+}
+
+.status-hint {
+  font-size: calc(var(--cell) * 0.6);
+}
+
+.hud {
+  display: grid;
+  /* Tercios iguales, como la referencia, salvo que un récord largo pida más sitio. */
+  grid-template-columns: repeat(3, minmax(min-content, 1fr));
+  column-gap: calc(var(--cell) * 0.9);
+  margin: 0;
+  height: calc(var(--cell) * 2.85);
+  padding: 0 calc(var(--cell) * 0.4);
+  border-top: calc(var(--cell) * 0.12) solid var(--lcd-divider);
+  /* En la referencia el texto va pegado abajo, no centrado. */
+  align-items: end;
+  padding-bottom: calc(var(--cell) * 0.55);
+}
+
+.hud-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: calc(var(--cell) * 0.4);
+  min-width: 0;
+}
+
+/* Tamaño y espaciado calibrados para que quepa el peor caso: un récord de tres
+ * cifras (el máximo posible es 689). */
+.hud dt {
+  font-size: calc(var(--cell) * 1.35);
+  letter-spacing: 0.07em;
+  line-height: 0.75;
+  white-space: nowrap;
+}
+
+/* «Velocidad» es casi el doble de larga que «Speed»: en español se aprieta. */
+:lang(es) .hud dt {
+  font-size: calc(var(--cell) * 1.25);
+  letter-spacing: 0.02em;
+}
+
+/* Los números se dibujan con puntos en un canvas (render.js), como la serpiente.
+ * El texto real queda para lectores de pantalla. */
+.hud dd {
+  margin: 0;
+  line-height: 0;
+}
+
+.digits {
+  display: block;
+  image-rendering: pixelated;
+}
+
+.locale-switch {
+  font: inherit;
+  font-size: 14px;
+  color: var(--lcd-ink);
+  background: var(--lcd-screen);
+  border: 2px solid var(--lcd-ink);
+  border-radius: 6px;
+  padding: 6px 14px;
+  cursor: pointer;
+}
+
+.locale-switch:focus-visible {
+  outline: 3px solid var(--lcd-ink);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

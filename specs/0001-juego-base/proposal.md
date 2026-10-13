@@ -1,6 +1,6 @@
 # Propuesta — Juego base: la réplica fiel v0.1 del Snake LCD
 
-- **Estado**: Borrador
+- **Estado**: Implementada
 - **Fecha**: 2026-10-13
 - **Autor**: Brayan Diaz C
 - **Ítem de roadmap**: v0.1 → Réplica fiel de la referencia — los ocho ítems de la

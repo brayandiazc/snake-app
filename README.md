@@ -41,6 +41,7 @@ No hay dependencias que instalar ni build: el juego es HTML, CSS y JavaScript na
 python3 -m http.server 8000              # http://localhost:8000
 node --test                              # suite de pruebas
 bash .github/scripts/format.sh --check   # formato
+npx prettier@3.9.6 --check js tests      # formato del JavaScript
 ```
 
 > Ábrelo por HTTP, no con doble clic: los módulos ES no cargan desde `file://`.

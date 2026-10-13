@@ -26,13 +26,13 @@ graph TD
 
 ## Componentes
 
-| Componente   | Responsabilidad                                                                                     | Tecnología                    |
-| ------------ | --------------------------------------------------------------------------------------------------- | ----------------------------- |
-| `game.js`    | Estado de la partida y sus reglas: mover, crecer, comer, chocar, subir velocidad. **Sin DOM**       | JavaScript puro               |
-| `render.js`  | Dibuja un estado en el canvas: fondo LCD, píxeles de la serpiente, comida y marcador                | Canvas 2D                     |
-| `main.js`    | Arranca la página, traduce teclado y gestos a direcciones y avanza el juego a ritmo de la velocidad | DOM + `requestAnimationFrame` |
-| `storage.js` | Lee y guarda el récord                                                                              | `localStorage`                |
-| `i18n.js`    | Diccionario es/en y elección de idioma                                                              | JavaScript puro               |
+| Componente   | Responsabilidad                                                                                                                      | Tecnología                    |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------- |
+| `game.js`    | Estado de la partida y sus reglas: mover, crecer, comer, chocar, subir velocidad. **Sin DOM**                                        | JavaScript puro               |
+| `render.js`  | Dibuja un estado en el canvas: fondo LCD, puntos de la serpiente y la comida, y los números del marcador como mapa de bits de puntos | Canvas 2D                     |
+| `main.js`    | Arranca la página, traduce teclado y gestos a direcciones y avanza el juego a ritmo de la velocidad                                  | DOM + `requestAnimationFrame` |
+| `storage.js` | Lee y guarda el récord                                                                                                               | `localStorage`                |
+| `i18n.js`    | Diccionario es/en y elección de idioma                                                                                               | JavaScript puro               |
 
 ## Decisiones clave
 

@@ -27,14 +27,16 @@ Una vista no pasa a **conectada** sin loading, empty, error y éxito — ver
 ## Pantallas
 
 Una sola ruta. Lo que cambia no es la pantalla, sino el estado del juego dentro de ella:
-la barra de marcador (Score · Speed · Record) está siempre visible.
+la barra de marcador (Score · Speed · Record) está siempre visible. Los cuatro estados
+de datos de `ui.md` (carga, vacío, error, éxito) no aplican: no hay datos que cargar, y
+si el almacenamiento falla el juego sigue sin récord persistente.
 
-| Vista             | Ruta | Propósito                                                               | Estado |
-| ----------------- | ---- | ----------------------------------------------------------------------- | ------ |
-| Juego — en espera | `/`  | Tablero vacío con la serpiente inicial y «pulsa una tecla para empezar» | mapa   |
-| Juego — jugando   | `/`  | La partida: serpiente, comida y marcador en vivo                        | mapa   |
-| Juego — en pausa  | `/`  | Tablero congelado y aviso de pausa                                      | mapa   |
-| Juego — fin       | `/`  | Puntuación final, aviso de récord nuevo y cómo volver a jugar           | mapa   |
+| Vista             | Ruta | Propósito                                                               | Estado    |
+| ----------------- | ---- | ----------------------------------------------------------------------- | --------- |
+| Juego — en espera | `/`  | Tablero vacío con la serpiente inicial y «pulsa una tecla para empezar» | conectada |
+| Juego — jugando   | `/`  | La partida: serpiente, comida y marcador en vivo                        | conectada |
+| Juego — en pausa  | `/`  | Tablero congelado y aviso de pausa                                      | conectada |
+| Juego — fin       | `/`  | Puntuación final, aviso de récord nuevo y cómo volver a jugar           | conectada |
 
 ## Mapa de navegación
 

@@ -13,14 +13,15 @@ build**. Decisión propia de este proyecto: es un experimento de una sola pantal
 persona pidió explícitamente HTML, CSS y JS. Ver
 [ADR 0002](../decisions/0002-instanciacion-del-proyecto.md).
 
-| Pieza                | Versión                     | Nota                                                                        |
-| -------------------- | --------------------------- | --------------------------------------------------------------------------- |
-| Lenguaje del cliente | JavaScript ES2022 (módulos) | Sin transpilar. Navegadores objetivo: las dos últimas versiones de cada uno |
-| Render               | Canvas 2D                   | API nativa del navegador                                                    |
-| Estilos              | CSS nativo                  | Sin framework CSS: una pantalla con un canvas no lo amortiza                |
-| Pruebas              | `node:test` (Node.js ≥ 22)  | Corredor nativo de Node; no hay `package.json` ni dependencias              |
-| Formato              | Prettier 3.9.6 vía `npx`    | Fijado en [`format.sh`](../../.github/scripts/format.sh)                    |
-| Servidor local       | `python3 -m http.server`    | Los módulos ES no cargan desde `file://`; cualquier servidor estático sirve |
+| Pieza                | Versión                     | Nota                                                                                          |
+| -------------------- | --------------------------- | --------------------------------------------------------------------------------------------- |
+| Lenguaje del cliente | JavaScript ES2022 (módulos) | Sin transpilar. Navegadores objetivo: las dos últimas versiones de cada uno                   |
+| Render               | Canvas 2D                   | API nativa del navegador                                                                      |
+| Tipografía           | Orbitron 600 (OFL-1.1)      | Rótulos del marcador, alojada en `assets/fonts/`. Los números son puntos dibujados, no fuente |
+| Estilos              | CSS nativo                  | Sin framework CSS: una pantalla con un canvas no lo amortiza                                  |
+| Pruebas              | `node:test` (Node.js ≥ 22)  | Corredor nativo de Node; no hay `package.json` ni dependencias                                |
+| Formato              | Prettier 3.9.6 vía `npx`    | Fijado en [`format.sh`](../../.github/scripts/format.sh)                                      |
+| Servidor local       | `python3 -m http.server`    | Los módulos ES no cargan desde `file://`; cualquier servidor estático sirve                   |
 
 Todo lo demás es lo que dicta el navegador. **Si no aparece abajo como desviación, es el
 default.**

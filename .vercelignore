@@ -1,0 +1,18 @@
+# Lo que no se publica: solo va lo que el navegador necesita
+# (index.html, css/, js/, assets/, design/tokens.css, robots.txt).
+# Ver docs/conventions/deploy.md.
+.claude/
+.github/
+.githooks/
+docs/
+specs/
+tests/
+design/README.md
+design/preview.html
+*.md
+.env.example
+.mcp.json.example
+.editorconfig
+.prettierignore
+.template-origin
+LICENSE

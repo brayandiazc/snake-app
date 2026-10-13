@@ -75,7 +75,7 @@ Reglas del paso:
    `speed` y la comida aparece en una celda libre al azar. Si no queda ninguna celda
    libre, la partida termina.
 
-Serpiente inicial: 4 celdas en el centro (cabeza en `(17, 10)`), mirando a la derecha.
+Serpiente inicial: 4 celdas en el centro (cabeza en `(16, 10)`), mirando a la derecha.
 
 ### Otros módulos
 
@@ -94,11 +94,17 @@ Serpiente inicial: 4 celdas en el centro (cabeza en `(17, 10)`), mirando a la de
 
 - **Colores**: nuevos tokens semánticos en `design/tokens.css` para la pantalla
   (`--lcd-screen`, `--lcd-ink`, `--lcd-frame`), con los valores de la tabla de colores.
-  Mismo aspecto en tema claro y oscuro: es una pantalla LCD, no una interfaz que cambie
-  con el tema. La página alrededor del dispositivo sí respeta el tema.
-- **Tipografía**: Orbitron para los rótulos (Score, Speed, Record) y Doto, de puntos,
-  para los números. Ambas OFL-1.1, en `.woff2` dentro de `assets/fonts/` con su
-  `OFL.txt`. Nada se carga de un CDN.
+  Mismo aspecto en tema claro y oscuro, damero de fondo incluido: es la réplica de
+  una pantalla física, no una interfaz que cambie con el tema.
+- **Rótulos**: Orbitron 600 (OFL-1.1), en `.woff2` dentro de `assets/fonts/` con su
+  licencia. Nada se carga de un CDN. Tamaño y espaciado calibrados para que quepa el
+  peor caso, un récord de tres cifras (el máximo posible es 689 = 693 celdas − 4).
+- **Números**: no son una tipografía. En la captura son un mapa de bits de 7 × 7
+  «píxeles», cada uno un punto LCD (paso ≈ 0,175 C). Se dibujan en un canvas por valor
+  con `drawDigits()`, y el texto real queda oculto para lectores de pantalla. El 1, el
+  3 y el 5 están copiados de la captura; el resto sigue su estilo.
+- **Avisos de estado** (en espera, pausa, fin): en el tercio superior del tablero, sin
+  fondo, porque el centro es donde está la serpiente al empezar.
 
 ## Alternativas consideradas
 
@@ -131,6 +137,9 @@ hace sobre el juego real, en comparación lado a lado.
   [`architecture.md`](../../docs/architecture/architecture.md), así que no necesita ADR
   propio.
 - Tipografías alojadas en el repositorio, nunca desde un CDN.
+- **Desvío respecto al borrador**: se descartó Doto para los números. Medida de cerca,
+  la captura no usa una fuente sino puntos LCD, como la serpiente; Doto se parecía
+  pero no era igual.
 
 ## Despliegue y reversión
 
