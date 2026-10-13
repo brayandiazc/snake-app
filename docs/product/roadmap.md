@@ -27,14 +27,14 @@ contrato queden atados:
 
 ### v0.1 — Réplica fiel de la referencia
 
-- [ ] 📋 Tablero LCD: fondo verde, borde y cuadrícula de píxeles negros.
-- [ ] 📋 Serpiente que se mueve, crece al comer y muere al chocar.
-- [ ] 📋 Comida en forma de rombo en una celda libre al azar.
-- [ ] 📋 Barra inferior con Score, Speed y Record.
-- [ ] 📋 Récord guardado en el navegador.
-- [ ] 📋 Controles con teclado (flechas, pausa) y con gestos táctiles.
-- [ ] 📋 Textos en español e inglés.
-- [ ] 📋 Metadatos SEO y Open Graph de la página.
+- [ ] 📋 Tablero LCD: fondo verde, borde y cuadrícula de píxeles negros. (`specs/0001-juego-base/`)
+- [ ] 📋 Serpiente que se mueve, crece al comer y muere al chocar. (`specs/0001-juego-base/`)
+- [ ] 📋 Comida en forma de rombo en una celda libre al azar. (`specs/0001-juego-base/`)
+- [ ] 📋 Barra inferior con Score, Speed y Record. (`specs/0001-juego-base/`)
+- [ ] 📋 Récord guardado en el navegador. (`specs/0001-juego-base/`)
+- [ ] 📋 Controles con teclado (flechas, pausa) y con gestos táctiles. (`specs/0001-juego-base/`)
+- [ ] 📋 Textos en español e inglés. (`specs/0001-juego-base/`)
+- [ ] 📋 Metadatos SEO y Open Graph de la página. (`specs/0001-juego-base/`)
 
 Reglas de juego decididas (2026-10-13), que la referencia no muestra:
 
