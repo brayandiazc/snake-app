@@ -21,7 +21,7 @@ no se puede evaluar hasta que haya algo que jugar.
 - **¿Ya existe?**: Sí, hay muchos clones de Snake en la web. No compite con ellos: el
   valor está en el ejercicio, no en el producto.
 - **Experimento previo**: No hacía falta. La referencia visual es una captura del juego
-  original que aportó el autor.
+  original que aportó el autor: [`referencia.jpeg`](../../docs/product/referencia.jpeg).
 
 ## Objetivo
 
@@ -60,8 +60,8 @@ referencia no se distinga de ella**, y que se juegue igual con teclado que con e
   [`architecture.md`](../../docs/architecture/architecture.md): `index.html`, `css/`,
   `js/` y `assets/`.
 - **Riesgos**:
-  - **Fidelidad**: «parecido» es subjetivo. Se mitiga guardando la captura en el
-    repositorio y comparando lado a lado antes de cerrar.
+  - **Fidelidad**: «parecido» es subjetivo. Se mitiga con las medidas tomadas de la
+    captura (ver [`design.md`](design.md)) y una comparación lado a lado antes de cerrar.
   - **Licencias**: las tipografías son OFL-1.1, se alojan en el repositorio con su
     licencia. No se copia nada de otro sitio.
   - **Móvil**: deslizar el dedo puede hacer scroll en vez de girar. Se bloquea el gesto
@@ -69,8 +69,5 @@ referencia no se distinga de ella**, y que se juegue igual con teclado que con e
 
 ## Preguntas abiertas
 
-- [ ] **Falta guardar la captura de referencia** en `docs/product/referencia.png`: no
-      puedo guardar una imagen pegada en el chat como archivo. Sin ella, la comparación
-      lado a lado depende de la memoria.
 - [ ] El ritmo de Speed (cuánto se acelera cada nivel) se ajusta jugando; el valor de
       partida está en [`design.md`](design.md).

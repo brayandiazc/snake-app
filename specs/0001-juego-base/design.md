@@ -11,16 +11,32 @@ de `requestAnimationFrame` y llama a `step()` cada vez que se cumple el interval
 velocidad actual; después `js/render.js` dibuja el estado en el canvas. El marcador y
 los avisos son HTML.
 
-### Medidas (a calibrar contra la captura)
+### Medidas (tomadas de la captura)
 
-Medido sobre la referencia: el tablero mide unas **35 × 22 celdas**. Cada celda se dibuja
-con «puntos» LCD con separación entre ellos:
+Medido en píxeles sobre [`referencia.jpeg`](../../docs/product/referencia.jpeg)
+(1121 × 832). Todo se expresa en relación con la celda (**C ≈ 32,4 px** en la captura),
+para que escale a cualquier pantalla:
 
-| Elemento          | Cómo se dibuja dentro de su celda                        |
-| ----------------- | -------------------------------------------------------- |
-| Cuerpo y cabeza   | 2 × 2 puntos, que unidos forman el trazo doble           |
-| Comida            | Rombo: 4 puntos (arriba, izquierda, derecha, abajo) en una rejilla de 3 × 3, sin centro |
-| Fondo             | Color de pantalla LCD, sin cuadrícula visible            |
+| Elemento                | Medida en la captura                               | Respecto a la celda      |
+| ----------------------- | -------------------------------------------------- | ------------------------ |
+| Tablero                 | **33 × 21 celdas**                                 | —                        |
+| Punto LCD               | 13 px de punto + 3 px de separación                | Celda = 2 × 2 puntos     |
+| Serpiente               | Cada celda, 2 × 2 puntos                           | Trazo doble y continuo   |
+| Comida                  | Rombo de 4 puntos en una rejilla de 3 × 3          | Ocupa una celda          |
+| Margen interior         | ≈ 11–12 px a cada lado del tablero                 | ≈ 0,35 C                 |
+| Marco                   | Negro, 5 px, esquinas de ≈ 8 px                    | 0,15 C; radio 0,25 C     |
+| Línea sobre el marcador | 4 px                                               | 0,12 C                   |
+| Barra del marcador      | 92 px de alto                                      | ≈ 2,85 C                 |
+| Texto del marcador      | Mayúsculas de 32 px; números de 37 px              | ≈ 1 C                    |
+| Grupos del marcador     | Tres de igual ancho: rótulo a la izquierda, número a la derecha | —           |
+| Fondo de la página      | Damero de cuadros de ≈ 10 px                       | Fijo, no escala          |
+
+| Color                        | Valor                                |
+| ---------------------------- | ------------------------------------ |
+| Pantalla                     | `rgb(144 195 2)`                     |
+| Tinta (puntos, marco, texto) | `rgb(0 0 0)`                         |
+| Línea sobre el marcador      | `rgb(41 59 0)`                       |
+| Damero de fondo              | `rgb(130 177 2)` y `rgb(156 193 53)` |
 
 El canvas trabaja a un tamaño de celda entero (en píxeles del dispositivo), el mayor que
 quepa en la ventana. Se escala con `image-rendering: pixelated`, así no aparecen bordes
@@ -59,7 +75,7 @@ Reglas del paso:
    `speed` y la comida aparece en una celda libre al azar. Si no queda ninguna celda
    libre, la partida termina.
 
-Serpiente inicial: 4 celdas en el centro, mirando a la derecha.
+Serpiente inicial: 4 celdas en el centro (cabeza en `(17, 10)`), mirando a la derecha.
 
 ### Otros módulos
 
@@ -77,7 +93,7 @@ Serpiente inicial: 4 celdas en el centro, mirando a la derecha.
 ### Aspecto
 
 - **Colores**: nuevos tokens semánticos en `design/tokens.css` para la pantalla
-  (`--lcd-screen`, `--lcd-ink`, `--lcd-frame`), con los valores tomados de la captura.
+  (`--lcd-screen`, `--lcd-ink`, `--lcd-frame`), con los valores de la tabla de colores.
   Mismo aspecto en tema claro y oscuro: es una pantalla LCD, no una interfaz que cambie
   con el tema. La página alrededor del dispositivo sí respeta el tema.
 - **Tipografía**: Orbitron para los rótulos (Score, Speed, Record) y Doto, de puntos,
@@ -88,7 +104,7 @@ Serpiente inicial: 4 celdas en el centro, mirando a la derecha.
 
 | Alternativa                                   | Por qué no                                                                     |
 | --------------------------------------------- | ------------------------------------------------------------------------------ |
-| Tablero en DOM (un `<div>` por celda)         | 770 celdas redibujadas varias veces por segundo; el canvas lo hace sin esfuerzo |
+| Tablero en DOM (un `<div>` por celda)         | 693 celdas redibujadas varias veces por segundo; el canvas lo hace sin esfuerzo |
 | `setInterval` con el intervalo de la velocidad | Se desincroniza del refresco de pantalla y sigue corriendo con la pestaña oculta |
 | Dibujar los números del marcador en el canvas | Se pierde la accesibilidad y la traducción; el HTML con fuente de puntos da lo mismo |
 | Estado mutable dentro de una clase `Game`     | Más difícil de probar: cada prueba tendría que reconstruir el historial         |
@@ -104,8 +120,8 @@ Serpiente inicial: 4 celdas en el centro, mirando a la derecha.
 ## Prototipo (si la spec toca UI)
 
 No hay prototipo aparte: la vista es una sola, y su referencia es la captura del juego
-original (`docs/product/referencia.png`, pendiente de añadir). La revisión visual se hace
-sobre el juego real, en comparación lado a lado.
+original ([`referencia.jpeg`](../../docs/product/referencia.jpeg)). La revisión visual se
+hace sobre el juego real, en comparación lado a lado.
 
 ## Decisiones
 
