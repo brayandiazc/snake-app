@@ -19,7 +19,15 @@ import {
   drawDigits,
 } from "./render.js";
 import { LOCALES, detectLocale, t } from "./i18n.js";
-import { loadLocale, loadRecord, saveLocale, saveRecord } from "./storage.js";
+import { MAZES, getMaze } from "./mazes.js";
+import {
+  loadLocale,
+  loadMazeId,
+  loadRecord,
+  saveLocale,
+  saveMazeId,
+  saveRecord,
+} from "./storage.js";
 
 const KEY_DIRECTIONS = {
   ArrowUp: "up",
@@ -49,12 +57,21 @@ const elements = {
   speed: document.querySelector('[data-value="speed"]'),
   record: document.querySelector('[data-value="record"]'),
   localeSwitch: document.querySelector(".locale-switch"),
+  statusMenu: document.querySelector(".status-menu"),
+  menu: document.querySelector(".menu"),
+  menuItems: [...document.querySelectorAll(".menu-item")],
+  menuHint: document.querySelector(".menu-hint"),
+  mazeName: document.querySelector("[data-maze-name]"),
 };
 const ctx = elements.board.getContext("2d");
 const colors = readColors();
 
-let state = createGame();
-let record = loadRecord(storage);
+// Pantalla actual: el menú de inicio o la partida (spec 0003).
+let mode = "menu";
+let menuIndex = 0;
+let maze = getMaze(loadMazeId(storage));
+let state = createGame({ maze });
+let record = loadRecord(storage, maze.id);
 let newRecord = false;
 let locale = detectLocale(loadLocale(storage), navigator.language);
 let cellPx = 0;
@@ -122,17 +139,33 @@ function update(next) {
   state = next;
   if (!wasOver && state.status === "over") {
     newRecord = state.score > record;
-    record = saveRecord(storage, state.score);
+    record = saveRecord(storage, state.score, maze.id);
   }
   render();
 }
 
 function render() {
-  draw(ctx, state, cellPx, colors);
+  // En el menú, de fondo solo se ve el laberinto elegido.
+  const view = mode === "menu" ? { ...state, snake: [], food: null } : state;
+  draw(ctx, view, cellPx, colors);
   renderValue(elements.score, state.score);
   renderValue(elements.speed, state.speed);
   renderValue(elements.record, record);
   renderStatus();
+  renderMenu();
+}
+
+function renderMenu() {
+  elements.menu.hidden = mode !== "menu";
+  if (mode !== "menu") return;
+  elements.menuItems.forEach((item, index) => {
+    item.classList.toggle("is-selected", index === menuIndex);
+  });
+  elements.mazeName.textContent = t(locale, `maze.${maze.id}`);
+  elements.menuHint.textContent = t(
+    locale,
+    touchFirst ? "menu.hintTouch" : "menu.hint",
+  );
 }
 
 // El número va como texto (para lectores de pantalla) y dibujado con puntos.
@@ -168,9 +201,11 @@ function renderStatus() {
       t(locale, touchFirst ? "status.overHintTouch" : "status.overHint"),
     ],
   };
-  const message = messages[state.status];
+  const message = mode === "game" ? messages[state.status] : undefined;
   elements.status.hidden = !message;
   if (!message) return;
+  elements.statusMenu.hidden =
+    state.status !== "over" && state.status !== "paused";
   elements.statusTitle.textContent = message[0];
   elements.statusHint.textContent = message[1];
   elements.statusHint.hidden = !message[1];
@@ -179,9 +214,57 @@ function renderStatus() {
 // ---- Controles ----
 
 function restart() {
-  state = createGame();
+  state = createGame({ maze });
   newRecord = false;
   render();
+}
+
+function openMenu() {
+  mode = "menu";
+  menuIndex = 0;
+  restart();
+}
+
+function startFromMenu() {
+  mode = "game";
+  restart();
+}
+
+function selectMaze(delta) {
+  const index = MAZES.findIndex((candidate) => candidate.id === maze.id);
+  maze = MAZES[(index + delta + MAZES.length) % MAZES.length];
+  saveMazeId(storage, maze.id);
+  record = loadRecord(storage, maze.id);
+  restart();
+}
+
+function activateMenuItem(index) {
+  menuIndex = index;
+  const action = elements.menuItems[index].dataset.action;
+  if (action === "play") startFromMenu();
+  else if (action === "maze") selectMaze(1);
+}
+
+// Teclado en el menú: ↑↓ eligen fila, ←→ cambian el valor, Enter/Espacio activan.
+function handleMenuKey(event) {
+  const direction = KEY_DIRECTIONS[event.code];
+  const action = elements.menuItems[menuIndex].dataset.action;
+  if (direction === "up" || direction === "down") {
+    const delta = direction === "up" ? -1 : 1;
+    const count = elements.menuItems.length;
+    menuIndex = (menuIndex + delta + count) % count;
+    render();
+  } else if (
+    (direction === "left" || direction === "right") &&
+    action === "maze"
+  ) {
+    selectMaze(direction === "left" ? -1 : 1);
+  } else if (event.code === "Enter" || event.code === "Space") {
+    activateMenuItem(menuIndex);
+  } else {
+    return;
+  }
+  event.preventDefault();
 }
 
 // Tocar o Enter: empieza, reanuda o vuelve a jugar según el estado.
@@ -195,6 +278,18 @@ document.addEventListener("keydown", (event) => {
   // Con el foco en el botón de idioma, Enter y Espacio son del botón.
   const onButton = event.target === elements.localeSwitch;
   if (onButton && (event.code === "Enter" || event.code === "Space")) return;
+  if (mode === "menu") {
+    handleMenuKey(event);
+    return;
+  }
+  if (
+    event.code === "Escape" &&
+    (state.status === "over" || state.status === "paused")
+  ) {
+    event.preventDefault();
+    openMenu();
+    return;
+  }
   const direction = KEY_DIRECTIONS[event.code];
   if (direction) {
     event.preventDefault();
@@ -225,7 +320,12 @@ device.addEventListener(
 );
 
 device.addEventListener("touchend", (event) => {
-  if (!touchStart) return;
+  // Un toque sobre un botón (menú) es un clic: no se anula ni se interpreta como gesto.
+  if (!touchStart || event.target.closest("button")) {
+    touchStart = null;
+    return;
+  }
+  if (mode === "menu") return;
   const touch = event.changedTouches[0];
   const dx = touch.clientX - touchStart.x;
   const dy = touch.clientY - touchStart.y;
@@ -251,6 +351,11 @@ device.addEventListener("touchend", (event) => {
 document.addEventListener("visibilitychange", () => {
   if (document.hidden && state.status === "playing") update(togglePause(state));
 });
+
+elements.menuItems.forEach((item, index) => {
+  item.addEventListener("click", () => activateMenuItem(index));
+});
+elements.statusMenu.addEventListener("click", openMenu);
 
 elements.localeSwitch.addEventListener("click", () => {
   locale = LOCALES.find((candidate) => candidate !== locale);

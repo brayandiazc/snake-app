@@ -20,6 +20,7 @@ graph TD
         M --> R[render.js<br/>dibujo en canvas]
         M --> S[storage.js<br/>récord]
         M --> I[i18n.js<br/>textos es/en]
+        G --> Z[mazes.js<br/>laberintos]
         S --> L[(localStorage)]
     end
 ```
@@ -30,8 +31,9 @@ graph TD
 | ------------ | ------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------- |
 | `game.js`    | Estado de la partida y sus reglas: mover, crecer, comer, chocar, subir velocidad. **Sin DOM**                                        | JavaScript puro               |
 | `render.js`  | Dibuja un estado en el canvas: fondo LCD, puntos de la serpiente y la comida, y los números del marcador como mapa de bits de puntos | Canvas 2D                     |
-| `main.js`    | Arranca la página, traduce teclado y gestos a direcciones y avanza el juego a ritmo de la velocidad                                  | DOM + `requestAnimationFrame` |
-| `storage.js` | Lee y guarda el récord                                                                                                               | `localStorage`                |
+| `main.js`    | Arranca la página, lleva el menú de inicio, traduce teclado y gestos a direcciones y avanza el juego a ritmo de la velocidad         | DOM + `requestAnimationFrame` |
+| `mazes.js`   | Los laberintos como datos: filas de texto, `#` = muro. Validados por `tests/mazes.test.js`                                           | Datos                         |
+| `storage.js` | Lee y guarda el récord por laberinto, el laberinto elegido y el idioma                                                               | `localStorage`                |
 | `i18n.js`    | Diccionario es/en y elección de idioma                                                                                               | JavaScript puro               |
 
 ## Decisiones clave

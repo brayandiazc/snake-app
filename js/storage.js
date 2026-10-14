@@ -5,10 +5,19 @@
 
 const RECORD_KEY = "snake-app:record";
 const LOCALE_KEY = "snake-app:locale";
+const MAZE_KEY = "snake-app:maze";
 
-export function loadRecord(storage) {
+// Libre conserva la clave de la v0.1: nadie pierde su récord al actualizar.
+function recordKey(mazeId) {
+  return !mazeId || mazeId === "libre" ? RECORD_KEY : `${RECORD_KEY}:${mazeId}`;
+}
+
+export function loadRecord(storage, mazeId) {
   try {
-    const value = Number.parseInt(storage?.getItem(RECORD_KEY) ?? "", 10);
+    const value = Number.parseInt(
+      storage?.getItem(recordKey(mazeId)) ?? "",
+      10,
+    );
     return Number.isInteger(value) && value > 0 ? value : 0;
   } catch {
     return 0;
@@ -16,11 +25,11 @@ export function loadRecord(storage) {
 }
 
 // Guarda la puntuación solo si supera el récord. Devuelve el récord vigente.
-export function saveRecord(storage, score) {
-  const record = loadRecord(storage);
+export function saveRecord(storage, score, mazeId) {
+  const record = loadRecord(storage, mazeId);
   if (score <= record) return record;
   try {
-    storage?.setItem(RECORD_KEY, String(score));
+    storage?.setItem(recordKey(mazeId), String(score));
   } catch {
     // Sin almacenamiento el récord vale para esta sesión, no sobrevive a la recarga.
   }
@@ -40,5 +49,21 @@ export function saveLocale(storage, locale) {
     storage?.setItem(LOCALE_KEY, locale);
   } catch {
     // Igual que el récord: se pierde al recargar, nada más.
+  }
+}
+
+export function loadMazeId(storage) {
+  try {
+    return storage?.getItem(MAZE_KEY) ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export function saveMazeId(storage, mazeId) {
+  try {
+    storage?.setItem(MAZE_KEY, mazeId);
+  } catch {
+    // Se vuelve a Libre al recargar, nada más.
   }
 }

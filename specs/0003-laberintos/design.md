@@ -36,7 +36,8 @@ createGame({ cols, rows, random, maze })  // maze: { id, walls: ["....#..", ...]
 
 ### Menú
 
-Nuevo estado `status: "menu"`, anterior a `"ready"`. Se dibuja en HTML sobre el canvas
+El menú es un **modo de la interfaz** en `main.js` (`mode = "menu" | "game"`), no un
+estado de `game.js`: un menú no es una regla del juego. Se dibuja en HTML sobre el canvas
 (como los avisos de la v0.1), con el laberinto elegido de fondo y sin serpiente.
 
 ```

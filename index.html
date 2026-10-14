@@ -49,6 +49,45 @@
           <div class="status" role="status" aria-live="polite" hidden>
             <p class="status-title"></p>
             <p class="status-hint"></p>
+            <button
+              class="status-menu"
+              type="button"
+              data-i18n="menu.back"
+              hidden
+            >
+              Menú
+            </button>
+          </div>
+          <div class="menu" hidden>
+            <div
+              class="menu-items"
+              role="menu"
+              aria-label="Menú"
+              data-i18n-aria-label="menu.label"
+            >
+              <button
+                class="menu-item"
+                type="button"
+                role="menuitem"
+                tabindex="-1"
+                data-action="play"
+              >
+                <span data-i18n="menu.play">Jugar</span>
+              </button>
+              <button
+                class="menu-item"
+                type="button"
+                role="menuitem"
+                tabindex="-1"
+                data-action="maze"
+              >
+                <span data-i18n="menu.maze">Laberinto</span>
+                <span class="menu-value"
+                  >‹ <span data-maze-name>Libre</span> ›</span
+                >
+              </button>
+            </div>
+            <p class="menu-hint"></p>
           </div>
         </div>
         <dl class="hud">

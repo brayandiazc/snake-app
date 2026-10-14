@@ -1,6 +1,6 @@
 # Propuesta — Laberintos y menú de inicio
 
-- **Estado**: Borrador
+- **Estado**: Implementada
 - **Fecha**: 2026-10-13
 - **Autor**: Brayan Diaz C
 - **Ítem de roadmap**: v0.2 → Menú de inicio dentro de la pantalla LCD; Laberintos fijos

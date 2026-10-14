@@ -10,6 +10,7 @@ import {
   tickMs,
   togglePause,
 } from "../js/game.js";
+import { MAZES, getMaze } from "../js/mazes.js";
 
 // Una partida en marcha con la serpiente y la comida donde la prueba diga.
 function playing(overrides = {}) {
@@ -187,4 +188,46 @@ test("la pausa congela la partida y se reanuda", () => {
 test("tras perder no se aceptan giros", () => {
   const over = playing({ status: "over" });
   assert.equal(queueDirection(over, "up"), over);
+});
+
+// ---- Laberintos (spec 0003) ----
+
+test("sin laberinto, la partida es la de la v0.1: Libre y sin muros", () => {
+  const game = createGame({ random: () => 0 });
+  assert.equal(game.mazeId, "libre");
+  assert.equal(game.walls.size, 0);
+});
+
+test("chocar con un muro termina la partida", () => {
+  // En Caja, la columna 32 es muro: la cabeza en (31,10) mirando a la derecha choca.
+  const game = {
+    ...start(createGame({ random: () => 0, maze: getMaze("caja") })),
+    snake: [{ x: 31, y: 10 }],
+    direction: "right",
+    food: { x: 5, y: 5 },
+  };
+  assert.equal(step(game).status, "over");
+});
+
+test("en Caja no se atraviesa el borde: el muro lo impide", () => {
+  const game = {
+    ...start(createGame({ random: () => 0, maze: getMaze("caja") })),
+    snake: [{ x: 1, y: 1 }],
+    direction: "up",
+    food: { x: 5, y: 5 },
+  };
+  assert.equal(step(game).status, "over");
+});
+
+test("la comida nunca cae en un muro", () => {
+  // random() = 0 elegiría la primera celda, (0,0), que en Caja es muro.
+  const game = createGame({ random: () => 0, maze: getMaze("caja") });
+  assert.deepEqual(game.food, { x: 1, y: 1 });
+});
+
+test("en cualquier laberinto la serpiente sale sin chocar", () => {
+  for (const maze of MAZES) {
+    const next = step(start(createGame({ random: () => 0.5, maze })));
+    assert.equal(next.status, "playing", maze.id);
+  }
 });
