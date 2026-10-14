@@ -47,9 +47,9 @@ Reglas de juego decididas (2026-10-13), que la referencia no muestra:
 
 ### v0.2 — Laberintos y dos jugadores
 
-- [ ] 📋 Menú de inicio dentro de la pantalla LCD, con flechas o el dedo. (`specs/0003-laberintos/`)
-- [ ] 📋 Laberintos fijos con muros, a elegir antes de jugar. (`specs/0003-laberintos/`)
-- [ ] 📋 Récord separado por laberinto. (`specs/0003-laberintos/`)
+- [x] ✅ Menú de inicio dentro de la pantalla LCD, con flechas o el dedo. (`specs/0003-laberintos/`)
+- [x] ✅ Laberintos fijos con muros, a elegir antes de jugar. (`specs/0003-laberintos/`)
+- [x] ✅ Récord separado por laberinto. (`specs/0003-laberintos/`)
 - [ ] 📋 Dos jugadores a la vez con el mismo teclado (WASD y flechas), solo en escritorio. (`specs/0004-multijugador-local/`)
 
 Decisiones de producto (2026-10-13):

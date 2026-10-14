@@ -1,6 +1,8 @@
 // Reglas del juego. Funciones puras: reciben un estado y devuelven uno nuevo.
 // Sin DOM, sin window, sin localStorage — ver docs/architecture/architecture.md.
 
+import { DEFAULT_MAZE_ID, getMaze, wallsOf } from "./mazes.js";
+
 export const COLS = 33;
 export const ROWS = 21;
 export const MAX_SPEED = 9;
@@ -26,11 +28,14 @@ export function tickMs(speed) {
   return 300 - (speed - 1) * 25;
 }
 
+// `maze` es uno de MAZES (js/mazes.js). Sin él, el tablero de la v0.1 (Libre).
 export function createGame({
   cols = COLS,
   rows = ROWS,
   random = Math.random,
+  maze = getMaze(DEFAULT_MAZE_ID),
 } = {}) {
+  const walls = wallsOf(maze);
   const head = { x: Math.floor(cols / 2), y: Math.floor(rows / 2) };
   const snake = Array.from({ length: INITIAL_LENGTH }, (_, i) => ({
     x: head.x - i,
@@ -42,7 +47,9 @@ export function createGame({
     snake,
     direction: "right",
     queuedDirections: [],
-    food: placeFood(cols, rows, snake, random),
+    mazeId: maze.id,
+    walls,
+    food: placeFood(cols, rows, snake, random, walls),
     score: 0,
     speed: 1,
     status: "ready",
@@ -89,6 +96,11 @@ export function step(state) {
     y: (head.y + vector.y + state.rows) % state.rows,
   };
 
+  // Un muro mata antes que nada: ni se come ni se mira el cuerpo.
+  if (state.walls.has(newHead.y * state.cols + newHead.x)) {
+    return { ...state, direction, queuedDirections, status: "over" };
+  }
+
   const eats = state.food !== null && sameCell(newHead, state.food);
   // Si no come, la cola se mueve en este mismo tick: su celda queda libre.
   const body = eats ? state.snake : state.snake.slice(0, -1);
@@ -100,7 +112,13 @@ export function step(state) {
   if (!eats) return { ...state, snake, direction, queuedDirections };
 
   const score = state.score + 1;
-  const food = placeFood(state.cols, state.rows, snake, state.random);
+  const food = placeFood(
+    state.cols,
+    state.rows,
+    snake,
+    state.random,
+    state.walls,
+  );
   return {
     ...state,
     snake,
@@ -114,8 +132,9 @@ export function step(state) {
   };
 }
 
-export function placeFood(cols, rows, snake, random) {
-  const occupied = new Set(snake.map((cell) => cell.y * cols + cell.x));
+export function placeFood(cols, rows, snake, random, walls = new Set()) {
+  const occupied = new Set(walls);
+  for (const cell of snake) occupied.add(cell.y * cols + cell.x);
   const free = cols * rows - occupied.size;
   if (free <= 0) return null;
   // Elige la n-ésima celda libre: una sola llamada a random, sin reintentos.

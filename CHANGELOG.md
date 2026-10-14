@@ -9,6 +9,10 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ### Added
 
+- **Laberintos y menú de inicio** ([spec 0003](specs/0003-laberintos/)): cinco
+  laberintos de diseño propio (Libre, Caja, Pasillos, Cruz e Islas), un menú dentro de la
+  pantalla LCD que se maneja con flechas o con el dedo, y un récord por laberinto. El
+  récord de la v0.1 se conserva como el de Libre.
 - Plan de la v0.2 en el roadmap y sus dos specs: laberintos con menú de inicio
   ([spec 0003](specs/0003-laberintos/)) y multijugador local
   ([spec 0004](specs/0004-multijugador-local/)).

@@ -2,8 +2,10 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   loadLocale,
+  loadMazeId,
   loadRecord,
   saveLocale,
+  saveMazeId,
   saveRecord,
 } from "../js/storage.js";
 
@@ -63,4 +65,30 @@ test("el idioma se guarda y se lee", () => {
   assert.equal(loadLocale(storage), null);
   saveLocale(storage, "en");
   assert.equal(loadLocale(storage), "en");
+});
+
+// ---- Laberintos (spec 0003) ----
+
+test("cada laberinto tiene su propio récord", () => {
+  const storage = memoryStorage();
+  saveRecord(storage, 20, "libre");
+  saveRecord(storage, 5, "caja");
+  assert.equal(loadRecord(storage, "libre"), 20);
+  assert.equal(loadRecord(storage, "caja"), 5);
+  assert.equal(loadRecord(storage, "islas"), 0);
+});
+
+test("Libre lee el récord guardado por la v0.1", () => {
+  const storage = memoryStorage({ "snake-app:record": "42" });
+  assert.equal(loadRecord(storage, "libre"), 42);
+  assert.equal(loadRecord(storage), 42);
+});
+
+test("el último laberinto elegido se guarda y se lee", () => {
+  const storage = memoryStorage();
+  assert.equal(loadMazeId(storage), null);
+  saveMazeId(storage, "cruz");
+  assert.equal(loadMazeId(storage), "cruz");
+  assert.equal(loadMazeId(brokenStorage), null);
+  assert.doesNotThrow(() => saveMazeId(brokenStorage, "cruz"));
 });

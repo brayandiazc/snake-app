@@ -165,6 +165,25 @@ export function draw(ctx, state, cell, colors) {
   ctx.fillRect(0, 0, width, height);
   ctx.fillStyle = colors.ink;
 
+  // Muros: 3 × 3 puntos por celda, más densos que la serpiente (2 × 2). En una
+  // pantalla de un solo color se distinguen por textura, como en una LCD real.
+  const wallPitch = cell / 3;
+  const wallDot = Math.max(1, Math.round(wallPitch * DOT_RATIO));
+  for (const index of state.walls ?? []) {
+    const left = margin + (index % state.cols) * cell;
+    const top = margin + Math.floor(index / state.cols) * cell;
+    for (let row = 0; row < 3; row++) {
+      for (let col = 0; col < 3; col++) {
+        ctx.fillRect(
+          Math.round(left + col * wallPitch),
+          Math.round(top + row * wallPitch),
+          wallDot,
+          wallDot,
+        );
+      }
+    }
+  }
+
   // Cada celda de la serpiente son 2 × 2 puntos: unidos, forman el trazo doble.
   const pitch = cell / 2;
   const dot = Math.max(1, Math.round(pitch * DOT_RATIO));
