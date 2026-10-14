@@ -17,8 +17,7 @@ abrir, jugar, batir tu récord. Nada más, y nada menos.
 
 ## Estado actual
 
-La v0.1 está publicada en https://snake-app-mu.vercel.app. La v0.2 (laberintos y dos
-jugadores) está implementada en `develop`, a falta de release.
+La v0.2 (laberintos y dos jugadores) está publicada en https://snake-app-mu.vercel.app.
 
 ## Por versión / fase
 
