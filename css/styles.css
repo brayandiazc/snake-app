@@ -90,6 +90,18 @@ body {
   margin: 0;
 }
 
+/* Con la partida congelada, el propio aviso es un recuadro ajustado al texto,
+ * centrado: se lee sin tapar la escena del choque. */
+.status.is-boxed {
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  width: max-content;
+  max-width: 90%;
+  padding: calc(var(--cell) * 0.6) calc(var(--cell) * 1.2);
+  background: var(--lcd-screen);
+  border: calc(var(--cell) * 0.12) solid var(--lcd-ink);
+}
+
 .status-title {
   font-size: calc(var(--cell) * 1.1);
   text-transform: uppercase;
@@ -110,7 +122,8 @@ body {
 }
 
 .status-menu[hidden],
-.menu[hidden] {
+.menu[hidden],
+.menu-item[hidden] {
   display: none;
 }
 

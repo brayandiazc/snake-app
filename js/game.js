@@ -28,49 +28,86 @@ export function tickMs(speed) {
   return 300 - (speed - 1) * 25;
 }
 
+// Salidas por número de jugadores. Las de dos son simétricas respecto al centro,
+// para que nadie empiece con ventaja (spec 0004); tests/mazes.test.js comprueba que
+// están libres en todos los laberintos. La de uno es el centro del tablero.
+const TWO_PLAYER_SPAWNS = [
+  { head: { x: 10, y: 6 }, direction: "right" },
+  { head: { x: 22, y: 14 }, direction: "left" },
+];
+
+function spawnsFor(players, cols, rows) {
+  if (players === 2) return TWO_PLAYER_SPAWNS;
+  return [
+    {
+      head: { x: Math.floor(cols / 2), y: Math.floor(rows / 2) },
+      direction: "right",
+    },
+  ];
+}
+
+// El cuerpo se extiende detrás de la cabeza, en sentido contrario a la marcha.
+function createSnake({ head, direction }) {
+  const vector = VECTORS[direction];
+  const cells = Array.from({ length: INITIAL_LENGTH }, (_, i) => ({
+    x: head.x - vector.x * i,
+    y: head.y - vector.y * i,
+  }));
+  return { cells, direction, queuedDirections: [], score: 0, alive: true };
+}
+
 // `maze` es uno de MAZES (js/mazes.js). Sin él, el tablero de la v0.1 (Libre).
+// `players`: 1 o 2. El estado guarda siempre una lista de serpientes.
 export function createGame({
   cols = COLS,
   rows = ROWS,
   random = Math.random,
   maze = getMaze(DEFAULT_MAZE_ID),
+  players = 1,
 } = {}) {
   const walls = wallsOf(maze);
-  const head = { x: Math.floor(cols / 2), y: Math.floor(rows / 2) };
-  const snake = Array.from({ length: INITIAL_LENGTH }, (_, i) => ({
-    x: head.x - i,
-    y: head.y,
-  }));
+  const snakes = spawnsFor(players, cols, rows).map(createSnake);
   return {
     cols,
     rows,
-    snake,
-    direction: "right",
-    queuedDirections: [],
+    players,
+    snakes,
     mazeId: maze.id,
     walls,
-    food: placeFood(cols, rows, snake, random, walls),
-    score: 0,
+    food: placeFood(cols, rows, allCells(snakes), random, walls),
     speed: 1,
     status: "ready",
+    // Solo con dos jugadores: "p1", "p2" o "draw" al terminar.
+    result: null,
     random,
   };
 }
 
-// Encola un giro para los próximos ticks. Ignora la marcha atrás y repetir la
-// dirección: se comparan contra el último giro encolado, no contra la dirección
-// actual, para que dos teclas rápidas («arriba, izquierda») funcionen en orden.
-export function queueDirection(state, direction) {
-  if (!VECTORS[direction] || state.status === "over") return state;
+export function totalScore(state) {
+  return state.snakes.reduce((total, snake) => total + snake.score, 0);
+}
+
+// Encola un giro de la serpiente `player` (0 = J1, 1 = J2). Ignora la marcha atrás
+// y repetir la dirección: se comparan contra el último giro encolado, no contra la
+// dirección actual, para que dos teclas rápidas («arriba, izquierda») funcionen en
+// orden.
+export function queueDirection(state, direction, player = 0) {
+  const snake = state.snakes[player];
+  if (!VECTORS[direction] || !snake || state.status === "over") return state;
   // En espera, cualquier flecha arranca, también la que repite la dirección.
   const current = start(state);
-  const last = current.queuedDirections.at(-1) ?? current.direction;
+  const last = snake.queuedDirections.at(-1) ?? snake.direction;
   if (direction === last || direction === OPPOSITE[last]) return current;
-  if (current.queuedDirections.length >= MAX_QUEUED) return current;
-  return {
-    ...current,
-    queuedDirections: [...current.queuedDirections, direction],
-  };
+  if (snake.queuedDirections.length >= MAX_QUEUED) return current;
+  const snakes = current.snakes.map((candidate, index) =>
+    index === player
+      ? {
+          ...candidate,
+          queuedDirections: [...candidate.queuedDirections, direction],
+        }
+      : candidate,
+  );
+  return { ...current, snakes };
 }
 
 export function start(state) {
@@ -86,50 +123,92 @@ export function togglePause(state) {
 export function step(state) {
   if (state.status !== "playing") return state;
 
-  const [nextDirection, ...queuedDirections] = state.queuedDirections;
-  const direction = nextDirection ?? state.direction;
-  const vector = VECTORS[direction];
-  const head = state.snake[0];
-  // El borde no mata: se sale por un lado y se entra por el opuesto.
-  const newHead = {
-    x: (head.x + vector.x + state.cols) % state.cols,
-    y: (head.y + vector.y + state.rows) % state.rows,
-  };
+  // 1. Cada serpiente aplica su giro y calcula su nueva cabeza.
+  const moves = state.snakes.map((snake) => {
+    const [nextDirection, ...queuedDirections] = snake.queuedDirections;
+    const direction = nextDirection ?? snake.direction;
+    const vector = VECTORS[direction];
+    const head = snake.cells[0];
+    // El borde no mata: se sale por un lado y se entra por el opuesto.
+    const newHead = {
+      x: (head.x + vector.x + state.cols) % state.cols,
+      y: (head.y + vector.y + state.rows) % state.rows,
+    };
+    const eats = state.food !== null && sameCell(newHead, state.food);
+    // Si no come, la cola se mueve en este mismo paso: su celda queda libre.
+    const body = eats ? snake.cells : snake.cells.slice(0, -1);
+    return { snake, direction, queuedDirections, head, newHead, eats, body };
+  });
 
-  // Un muro mata antes que nada: ni se come ni se mira el cuerpo.
-  if (state.walls.has(newHead.y * state.cols + newHead.x)) {
-    return { ...state, direction, queuedDirections, status: "over" };
+  // 2. Los choques se resuelven a la vez, con el estado de antes del paso: nadie
+  //    gana por moverse primero.
+  const dies = moves.map((move, index) => {
+    if (state.walls.has(move.newHead.y * state.cols + move.newHead.x)) {
+      return true;
+    }
+    if (
+      moves.some((other) => other.body.some((c) => sameCell(c, move.newHead)))
+    ) {
+      return true;
+    }
+    // Cabeza contra cabeza: en la misma celda, o cruzándose.
+    return moves.some(
+      (other, otherIndex) =>
+        otherIndex !== index &&
+        (sameCell(other.newHead, move.newHead) ||
+          (sameCell(other.newHead, move.head) &&
+            sameCell(move.newHead, other.head))),
+    );
+  });
+
+  if (dies.some(Boolean)) {
+    // Nadie se mueve: la partida se congela en el instante del choque.
+    const snakes = moves.map((move, index) => ({
+      ...move.snake,
+      direction: move.direction,
+      queuedDirections: move.queuedDirections,
+      alive: !dies[index],
+    }));
+    return { ...state, snakes, status: "over", result: resultOf(state, dies) };
   }
 
-  const eats = state.food !== null && sameCell(newHead, state.food);
-  // Si no come, la cola se mueve en este mismo tick: su celda queda libre.
-  const body = eats ? state.snake : state.snake.slice(0, -1);
-  if (body.some((cell) => sameCell(cell, newHead))) {
-    return { ...state, direction, queuedDirections, status: "over" };
-  }
+  // 3. Todas avanzan; la que come crece y suma 1.
+  const snakes = moves.map((move) => ({
+    ...move.snake,
+    cells: [move.newHead, ...move.body],
+    direction: move.direction,
+    queuedDirections: move.queuedDirections,
+    score: move.snake.score + (move.eats ? 1 : 0),
+  }));
+  if (!moves.some((move) => move.eats)) return { ...state, snakes };
 
-  const snake = [newHead, ...body];
-  if (!eats) return { ...state, snake, direction, queuedDirections };
-
-  const score = state.score + 1;
+  const next = { ...state, snakes };
   const food = placeFood(
     state.cols,
     state.rows,
-    snake,
+    allCells(snakes),
     state.random,
     state.walls,
   );
+  // Sin celdas libres no hay dónde poner comida: la partida termina.
+  const full = food === null;
   return {
-    ...state,
-    snake,
-    direction,
-    queuedDirections,
-    score,
-    speed: speedFor(score),
+    ...next,
     food,
-    // Sin celdas libres no hay dónde poner comida: la partida termina.
-    status: food === null ? "over" : state.status,
+    speed: speedFor(totalScore(next)),
+    status: full ? "over" : state.status,
+    result: full && state.players === 2 ? "draw" : state.result,
   };
+}
+
+function resultOf(state, dies) {
+  if (state.players !== 2) return null;
+  if (dies[0] && dies[1]) return "draw";
+  return dies[0] ? "p2" : "p1";
+}
+
+function allCells(snakes) {
+  return snakes.flatMap((snake) => snake.cells);
 }
 
 export function placeFood(cols, rows, snake, random, walls = new Set()) {

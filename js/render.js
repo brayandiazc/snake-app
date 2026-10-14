@@ -8,6 +8,18 @@ export const BOARD_MARGIN = 0.35;
 const DOT_RATIO = 0.8;
 // Los puntos de la comida casi se tocan (10,5 px cada 10,8 px).
 const FOOD_DOT_RATIO = 0.95;
+// Puntos de cada celda de serpiente, en una rejilla de 2 × 2: J1 los cuatro, J2 la
+// diagonal.
+const SOLID_DOTS = [
+  [0, 0],
+  [1, 0],
+  [0, 1],
+  [1, 1],
+];
+const DIAGONAL_DOTS = [
+  [0, 0],
+  [1, 1],
+];
 // Rombo de la comida en una rejilla de 3 × 3: arriba, izquierda, derecha, abajo.
 const FOOD_DOTS = [
   [1, 0],
@@ -185,13 +197,16 @@ export function draw(ctx, state, cell, colors) {
   }
 
   // Cada celda de la serpiente son 2 × 2 puntos: unidos, forman el trazo doble.
+  // J2 usa solo los dos de la diagonal: un trazo «punteado» que se distingue de J1
+  // y de los muros sin salir de una pantalla de un solo color (spec 0004).
   const pitch = cell / 2;
   const dot = Math.max(1, Math.round(pitch * DOT_RATIO));
-  for (const { x, y } of state.snake) {
-    const left = margin + x * cell;
-    const top = margin + y * cell;
-    for (let row = 0; row < 2; row++) {
-      for (let col = 0; col < 2; col++) {
+  state.snakes.forEach((snake, player) => {
+    const pattern = player === 0 ? SOLID_DOTS : DIAGONAL_DOTS;
+    for (const { x, y } of snake.cells) {
+      const left = margin + x * cell;
+      const top = margin + y * cell;
+      for (const [col, row] of pattern) {
         ctx.fillRect(
           Math.round(left + col * pitch),
           Math.round(top + row * pitch),
@@ -200,7 +215,7 @@ export function draw(ctx, state, cell, colors) {
         );
       }
     }
-  }
+  });
 
   if (state.food) {
     const subPitch = cell / 3;

@@ -9,6 +9,9 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ### Added
 
+- **Multijugador local** ([spec 0004](specs/0004-multijugador-local/)): dos serpientes
+  a la vez en el mismo tablero, J1 con WASD y J2 con las flechas. Comen de la misma
+  comida y gana quien sobrevive; si chocan de frente, empate. Solo en escritorio.
 - **Laberintos y menú de inicio** ([spec 0003](specs/0003-laberintos/)): cinco
   laberintos de diseño propio (Libre, Caja, Pasillos, Cruz e Islas), un menú dentro de la
   pantalla LCD que se maneja con flechas o con el dedo, y un récord por laberinto. El

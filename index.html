@@ -86,13 +86,24 @@
                   >‹ <span data-maze-name>Libre</span> ›</span
                 >
               </button>
+              <button
+                class="menu-item"
+                type="button"
+                role="menuitem"
+                tabindex="-1"
+                data-action="players"
+                hidden
+              >
+                <span data-i18n="menu.players">Jugadores</span>
+                <span class="menu-value">‹ <span data-players>1</span> ›</span>
+              </button>
             </div>
             <p class="menu-hint"></p>
           </div>
         </div>
         <dl class="hud">
           <div class="hud-item">
-            <dt data-i18n="hud.score">Puntos</dt>
+            <dt data-hud-label="left">Puntos</dt>
             <dd>
               <canvas class="digits" aria-hidden="true"></canvas
               ><span class="visually-hidden" data-value="score">0</span>
@@ -106,7 +117,7 @@
             </dd>
           </div>
           <div class="hud-item">
-            <dt data-i18n="hud.record">Récord</dt>
+            <dt data-hud-label="right">Récord</dt>
             <dd>
               <canvas class="digits" aria-hidden="true"></canvas
               ><span class="visually-hidden" data-value="record">0</span>
