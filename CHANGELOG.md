@@ -7,6 +7,8 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-13
+
 ### Added
 
 - **Multijugador local** ([spec 0004](specs/0004-multijugador-local/)): dos serpientes
@@ -44,5 +46,6 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
   squash merge y protección de `main` y `develop` (PR obligatorio y checks `Calidad` y
   `Gitleaks`).
 
-[Unreleased]: https://github.com/brayandiazc/snake-app/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/brayandiazc/snake-app/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/brayandiazc/snake-app/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/brayandiazc/snake-app/releases/tag/v0.1.0
