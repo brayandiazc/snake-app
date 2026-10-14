@@ -45,9 +45,23 @@ Reglas de juego decididas (2026-10-13), que la referencia no muestra:
 - **La velocidad sube sola**: Speed arranca en 1 y sube 1 cada 5 comidas, hasta 9
   (de 300 ms a 100 ms por paso). El ritmo se ajusta jugando.
 
+### v0.2 — Laberintos y dos jugadores
+
+- [ ] 📋 Menú de inicio dentro de la pantalla LCD, con flechas o el dedo. (`specs/0003-laberintos/`)
+- [ ] 📋 Laberintos fijos con muros, a elegir antes de jugar. (`specs/0003-laberintos/`)
+- [ ] 📋 Récord separado por laberinto. (`specs/0003-laberintos/`)
+- [ ] 📋 Dos jugadores a la vez con el mismo teclado (WASD y flechas), solo en escritorio. (`specs/0004-multijugador-local/`)
+
+Decisiones de producto (2026-10-13):
+
+- **Multijugador simultáneo y competitivo**: dos serpientes en el mismo tablero, que
+  comen de la misma comida. Gana quien sobrevive.
+- **Obstáculos como laberintos fijos**, elegidos en el menú. No aparecen bloques al azar.
+- **El menú vive dentro de la pantalla LCD**, con el mismo estilo de puntos.
+- **El modo de dos jugadores no aparece en móvil**: dos personas no caben en un teléfono.
+
 ## Backlog / ideas sin agendar
 
-- Laberintos como niveles.
 - Jugar sin conexión e instalarlo (PWA).
 - Ranking online (exige backend; ver `docs/architecture/database.md`).
 - Jugar en vertical en el móvil: el tablero es apaisado (33 × 21) como el original, y
@@ -58,7 +72,6 @@ Reglas de juego decididas (2026-10-13), que la referencia no muestra:
 | Qué               | Por qué quedó fuera                                    | Qué lo reabriría                    |
 | ----------------- | ------------------------------------------------------ | ----------------------------------- |
 | Cuentas y ranking | Exigen backend, base de datos y defensa contra trampas | Que la v1 tenga uso real y lo pidan |
-| Menú del móvil    | La v1 replica la pantalla de juego, no el menú         | Que la v1 esté terminada            |
 
 ## Cómo se actualiza este documento
 

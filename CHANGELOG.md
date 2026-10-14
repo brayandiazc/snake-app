@@ -7,6 +7,12 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ## [Unreleased]
 
+### Added
+
+- Plan de la v0.2 en el roadmap y sus dos specs: laberintos con menú de inicio
+  ([spec 0003](specs/0003-laberintos/)) y multijugador local
+  ([spec 0004](specs/0004-multijugador-local/)).
+
 ### Fixed
 
 - **Al compartir el enlace no salía la imagen**: `og:image` era una ruta relativa y las
