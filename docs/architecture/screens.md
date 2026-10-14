@@ -31,18 +31,22 @@ la barra de marcador (Score · Speed · Record) está siempre visible. Los cuatr
 de datos de `ui.md` (carga, vacío, error, éxito) no aplican: no hay datos que cargar, y
 si el almacenamiento falla el juego sigue sin récord persistente.
 
-| Vista             | Ruta | Propósito                                                               | Estado    |
-| ----------------- | ---- | ----------------------------------------------------------------------- | --------- |
-| Juego — en espera | `/`  | Tablero vacío con la serpiente inicial y «pulsa una tecla para empezar» | conectada |
-| Juego — jugando   | `/`  | La partida: serpiente, comida y marcador en vivo                        | conectada |
-| Juego — en pausa  | `/`  | Tablero congelado y aviso de pausa                                      | conectada |
-| Juego — fin       | `/`  | Puntuación final, aviso de récord nuevo y cómo volver a jugar           | conectada |
+| Vista             | Ruta | Propósito                                                                                   | Estado    |
+| ----------------- | ---- | ------------------------------------------------------------------------------------------- | --------- |
+| Menú de inicio    | `/`  | Elegir laberinto y jugadores (en escritorio) y empezar; el laberinto elegido se ve de fondo | conectada |
+| Juego — en espera | `/`  | Tablero vacío con la serpiente inicial y «pulsa una tecla para empezar»                     | conectada |
+| Juego — jugando   | `/`  | La partida: serpiente, comida y marcador en vivo                                            | conectada |
+| Juego — en pausa  | `/`  | Tablero congelado y aviso de pausa                                                          | conectada |
+| Juego — fin       | `/`  | Puntuación final o ganador (J1, J2 o empate), aviso de récord nuevo y cómo volver a jugar   | conectada |
 
 ## Mapa de navegación
 
 ```mermaid
 flowchart LR
-    Entrada([Abre la página]) --> Espera[En espera]
+    Entrada([Abre la página]) --> Menu[Menú de inicio]
+    Menu -- Jugar --> Espera[En espera]
+    Fin -- Esc / Menú --> Menu
+    Pausa -- Esc --> Menu
     Espera -- flecha o tecla --> Jugando[Jugando]
     Jugando -- Espacio / P --> Pausa[En pausa]
     Pausa -- Espacio / P --> Jugando
@@ -54,13 +58,13 @@ flowchart LR
 
 El camino que la v1 debe hacer impecable, en orden:
 
-En espera → Jugando → Fin de partida → En espera (con el récord actualizado)
+Menú → En espera → Jugando → Fin de partida → En espera (con el récord del laberinto
+actualizado)
 
 ## Pantallas que no van a existir
 
-| Vista descartada                    | Por qué                                                    | ¿Qué señal la haría entrar?          |
-| ----------------------------------- | ---------------------------------------------------------- | ------------------------------------ |
-| Registro / login                    | No hay cuentas en la v1                                    | Que se pida un ranking online        |
-| Ranking global                      | Exige backend y defensa contra puntuaciones falsas         | Que haya gente jugando y pidiéndolo  |
-| Privacidad / cookies                | No se recogen datos personales ni hay cookies ni analítica | Añadir analítica, anuncios o cuentas |
-| Menú de opciones (laberintos, etc.) | La v1 replica la pantalla de juego, no el menú del móvil   | Que la v1 esté terminada y se juegue |
+| Vista descartada     | Por qué                                                    | ¿Qué señal la haría entrar?          |
+| -------------------- | ---------------------------------------------------------- | ------------------------------------ |
+| Registro / login     | No hay cuentas en la v1                                    | Que se pida un ranking online        |
+| Ranking global       | Exige backend y defensa contra puntuaciones falsas         | Que haya gente jugando y pidiéndolo  |
+| Privacidad / cookies | No se recogen datos personales ni hay cookies ni analítica | Añadir analítica, anuncios o cuentas |

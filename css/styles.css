@@ -90,9 +90,94 @@ body {
   margin: 0;
 }
 
+/* Con la partida congelada, el propio aviso es un recuadro ajustado al texto,
+ * centrado: se lee sin tapar la escena del choque. */
+.status.is-boxed {
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  width: max-content;
+  max-width: 90%;
+  padding: calc(var(--cell) * 0.6) calc(var(--cell) * 1.2);
+  background: var(--lcd-screen);
+  border: calc(var(--cell) * 0.12) solid var(--lcd-ink);
+}
+
 .status-title {
   font-size: calc(var(--cell) * 1.1);
   text-transform: uppercase;
+}
+
+/* El botón «Menú» del fin de partida sí recibe toques, aunque el aviso no. */
+.status-menu {
+  pointer-events: auto;
+  margin-top: calc(var(--cell) * 0.4);
+  font: inherit;
+  font-size: calc(var(--cell) * 0.6);
+  text-transform: uppercase;
+  color: var(--lcd-ink);
+  background: none;
+  border: calc(var(--cell) * 0.08) solid var(--lcd-ink);
+  padding: calc(var(--cell) * 0.15) calc(var(--cell) * 0.6);
+  cursor: pointer;
+}
+
+.status-menu[hidden],
+.menu[hidden],
+.menu-item[hidden] {
+  display: none;
+}
+
+/* Menú de inicio, dentro de la pantalla. El laberinto elegido se ve de fondo. */
+.menu {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--cell) * 0.8);
+}
+
+.menu-items {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--cell) * 0.3);
+  /* Tapa los muros que queden detrás del texto, como un recuadro de la LCD. */
+  background: var(--lcd-screen);
+  border: calc(var(--cell) * 0.12) solid var(--lcd-ink);
+  padding: calc(var(--cell) * 0.6) calc(var(--cell) * 1.2);
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  gap: calc(var(--cell) * 1.5);
+  min-width: calc(var(--cell) * 14);
+  font: inherit;
+  font-size: calc(var(--cell) * 0.9);
+  text-transform: uppercase;
+  color: var(--lcd-ink);
+  background: none;
+  border: 0;
+  padding: calc(var(--cell) * 0.1) 0 calc(var(--cell) * 0.1)
+    calc(var(--cell) * 1.1);
+  text-align: left;
+  cursor: pointer;
+  position: relative;
+}
+
+/* La selección actual, como el cursor de los menús de los móviles de entonces. */
+.menu-item.is-selected::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+}
+
+.menu-hint {
+  margin: 0;
+  font-size: calc(var(--cell) * 0.5);
+  background: var(--lcd-screen);
+  padding: 0 calc(var(--cell) * 0.3);
 }
 
 .status-hint {

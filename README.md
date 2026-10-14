@@ -56,10 +56,10 @@ porqué, en [`docs/decisions/`](docs/decisions/README.md).
 
 Hosting estático en Vercel: `main` publica producción.
 
-| Ambiente   | URL                                                        | Rama      | Deploy |
-| ---------- | ---------------------------------------------------------- | --------- | ------ |
-| Desarrollo | `http://localhost:8000`                                    | `develop` | Local  |
-| Producción | [URL_PRODUCCION] <!-- pendiente: falta conectar Vercel --> | `main`    | Manual |
+| Ambiente   | URL                             | Rama      | Deploy     |
+| ---------- | ------------------------------- | --------- | ---------- |
+| Desarrollo | `http://localhost:8000`         | `develop` | Local      |
+| Producción | https://snake-app-mu.vercel.app | `main`    | Automático |
 
 Procedimiento en [`docs/conventions/deploy.md`](docs/conventions/deploy.md).
 

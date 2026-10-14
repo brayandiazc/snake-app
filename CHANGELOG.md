@@ -7,6 +7,28 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-13
+
+### Added
+
+- **Multijugador local** ([spec 0004](specs/0004-multijugador-local/)): dos serpientes
+  a la vez en el mismo tablero, J1 con WASD y J2 con las flechas. Comen de la misma
+  comida y gana quien sobrevive; si chocan de frente, empate. Solo en escritorio.
+- **Laberintos y menú de inicio** ([spec 0003](specs/0003-laberintos/)): cinco
+  laberintos de diseño propio (Libre, Caja, Pasillos, Cruz e Islas), un menú dentro de la
+  pantalla LCD que se maneja con flechas o con el dedo, y un récord por laberinto. El
+  récord de la v0.1 se conserva como el de Libre.
+- Plan de la v0.2 en el roadmap y sus dos specs: laberintos con menú de inicio
+  ([spec 0003](specs/0003-laberintos/)) y multijugador local
+  ([spec 0004](specs/0004-multijugador-local/)).
+
+### Fixed
+
+- **Al compartir el enlace no salía la imagen**: `og:image` era una ruta relativa y las
+  redes sociales la exigen absoluta. Se añaden también `canonical`, `og:url` y
+  `sitemap.xml` con la URL de producción, https://snake-app-mu.vercel.app
+  ([spec 0002](specs/0002-seo-url-produccion/)).
+
 ## [0.1.0] - 2026-10-13
 
 ### Added
@@ -24,5 +46,6 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
   squash merge y protección de `main` y `develop` (PR obligatorio y checks `Calidad` y
   `Gitleaks`).
 
-[Unreleased]: https://github.com/brayandiazc/snake-app/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/brayandiazc/snake-app/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/brayandiazc/snake-app/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/brayandiazc/snake-app/releases/tag/v0.1.0
