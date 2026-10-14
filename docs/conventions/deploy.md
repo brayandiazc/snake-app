@@ -13,10 +13,10 @@ build, ni servidor de aplicación, ni base de datos. Cualquier hosting estático
 
 ## Ambientes
 
-| Ambiente   | URL                                                        | Rama      | Deploy |
-| ---------- | ---------------------------------------------------------- | --------- | ------ |
-| Desarrollo | `http://localhost:8000`                                    | `develop` | Local  |
-| Producción | [URL_PRODUCCION] <!-- pendiente: falta conectar Vercel --> | `main`    | Manual |
+| Ambiente   | URL                             | Rama      | Deploy     |
+| ---------- | ------------------------------- | --------- | ---------- |
+| Desarrollo | `http://localhost:8000`         | `develop` | Local      |
+| Producción | https://snake-app-mu.vercel.app | `main`    | Automático |
 
 ## Reglas
 
@@ -34,9 +34,16 @@ build, ni servidor de aplicación, ni base de datos. Cualquier hosting estático
 tiene su vista previa. Al ser un sitio estático sin build, el proyecto se configura sin
 comando de build y con la raíz del repositorio como directorio de salida.
 
-Pendiente de conectar <!-- pendiente: falta conectar Vercel -->. Cuando se conecte,
-aquí va lo que se configuró, incluido cómo excluir `tests/`, `docs/` y `specs/` de lo
-publicado.
+Conectado el 2026-10-13. Configuración que debe tener el proyecto en Vercel:
+
+- **Framework**: Other, sin comando de build; la raíz del repositorio es la salida.
+- **Production Branch**: `main`. Vercel propone la rama por defecto del repositorio,
+  que aquí es `develop`; dejarla así publicaría trabajo sin release.
+- **Lo que no se publica**: lo excluye [`.vercelignore`](../../.vercelignore).
+
+**La URL de producción aparece en cuatro sitios.** Si cambia (un dominio propio), se
+cambian juntos: `index.html` (`canonical`, `og:url`, `og:image`), `sitemap.xml`,
+`robots.txt` y la tabla de ambientes de arriba (y la del README).
 
 ## Rollback
 
