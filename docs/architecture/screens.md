@@ -63,9 +63,8 @@ actualizado)
 
 ## Pantallas que no van a existir
 
-| Vista descartada                    | Por qué                                                    | ¿Qué señal la haría entrar?          |
-| ----------------------------------- | ---------------------------------------------------------- | ------------------------------------ |
-| Registro / login                    | No hay cuentas en la v1                                    | Que se pida un ranking online        |
-| Ranking global                      | Exige backend y defensa contra puntuaciones falsas         | Que haya gente jugando y pidiéndolo  |
-| Privacidad / cookies                | No se recogen datos personales ni hay cookies ni analítica | Añadir analítica, anuncios o cuentas |
-| Menú de opciones (laberintos, etc.) | La v1 replica la pantalla de juego, no el menú del móvil   | Que la v1 esté terminada y se juegue |
+| Vista descartada     | Por qué                                                    | ¿Qué señal la haría entrar?          |
+| -------------------- | ---------------------------------------------------------- | ------------------------------------ |
+| Registro / login     | No hay cuentas en la v1                                    | Que se pida un ranking online        |
+| Ranking global       | Exige backend y defensa contra puntuaciones falsas         | Que haya gente jugando y pidiéndolo  |
+| Privacidad / cookies | No se recogen datos personales ni hay cookies ni analítica | Añadir analítica, anuncios o cuentas |
