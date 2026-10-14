@@ -7,6 +7,13 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ## [Unreleased]
 
+### Added
+
+- **Desempate por puntuación en multijugador** ([spec 0005](specs/0005-desempate-multijugador/)):
+  en partidas de 2 jugadores, si ambas serpientes mueren en el mismo paso (choque de
+  frente o muertes simultáneas), la victoria se otorga al jugador con mayor puntuación
+  (comidas). Solo se declara empate si ambos tienen exactamente los mismos puntos.
+
 ## [0.2.0] - 2026-10-13
 
 ### Added

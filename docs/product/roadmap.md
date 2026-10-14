@@ -59,6 +59,20 @@ Decisiones de producto (2026-10-13):
 - **El menú vive dentro de la pantalla LCD**, con el mismo estilo de puntos.
 - **El modo de dos jugadores no aparece en móvil**: dos personas no caben en un teléfono.
 
+### v0.3 — Sonidos y desempate competitivo
+
+- [x] ✅ Desempate por puntuación en choques simultáneos de multijugador. (`specs/0005-desempate-multijugador/`)
+- [ ] 📋 Efectos de sonido retro con Web Audio API y control de silencio. (`specs/0006-sonidos-retro/`)
+
+Decisiones de producto (2026-10-13):
+
+- **Desempate en choques simultáneos**: en choques mutuos (cabeza con cabeza o ambos
+  chocando en el mismo turno), en vez de ser siempre empate gana el jugador que haya
+  comido más (mayor puntuación). Si tienen igual puntuación, se mantiene el empate.
+  Chocar contra el cuerpo del rival o contra un muro sigue eliminando al infractor.
+- **Sonidos nativos retro**: generados en tiempo real con Web Audio API (beeps monofónicos
+  estilo altavoz Nokia), sin archivos externos, con botón en pantalla y tecla M.
+
 ## Backlog / ideas sin agendar
 
 - Jugar sin conexión e instalarlo (PWA).

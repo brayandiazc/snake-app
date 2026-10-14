@@ -335,14 +335,55 @@ test("las dos cabezas en la misma celda: empate", () => {
   assert.equal(next.result, "draw");
 });
 
-test("dos cabezas que se cruzan: empate", () => {
+test("dos cabezas que se cruzan: empate si tienen igual puntuación", () => {
   const next = step(
     duel({
-      p1: { cells: [{ x: 4, y: 5 }], direction: "right" },
-      p2: { cells: [{ x: 5, y: 5 }], direction: "left" },
+      p1: { cells: [{ x: 4, y: 5 }], direction: "right", score: 2 },
+      p2: { cells: [{ x: 5, y: 5 }], direction: "left", score: 2 },
     }),
   );
   assert.equal(next.result, "draw");
+});
+
+test("dos cabezas en la misma celda: gana J1 si tiene más puntos", () => {
+  const next = step(
+    duel({
+      p1: { cells: [{ x: 4, y: 5 }], direction: "right", score: 3 },
+      p2: { cells: [{ x: 6, y: 5 }], direction: "left", score: 1 },
+    }),
+  );
+  assert.equal(next.result, "p1");
+});
+
+test("dos cabezas que se cruzan: gana J2 si tiene más puntos", () => {
+  const next = step(
+    duel({
+      p1: { cells: [{ x: 4, y: 5 }], direction: "right", score: 1 },
+      p2: { cells: [{ x: 5, y: 5 }], direction: "left", score: 4 },
+    }),
+  );
+  assert.equal(next.result, "p2");
+});
+
+test("chocar contra el cuerpo del rival sigue matando al infractor aunque tenga más puntos", () => {
+  const next = step(
+    duel({
+      p1: { cells: [{ x: 5, y: 4 }], direction: "down", score: 10 },
+      p2: {
+        cells: [
+          { x: 4, y: 5 },
+          { x: 5, y: 5 },
+          { x: 6, y: 5 },
+        ],
+        direction: "left",
+        score: 2,
+      },
+    }),
+  );
+  assert.equal(next.status, "over");
+  assert.equal(next.result, "p2");
+  assert.equal(next.snakes[0].alive, false);
+  assert.equal(next.snakes[1].alive, true);
 });
 
 test("entrar donde deja la cola del otro no mata", () => {

@@ -197,13 +197,22 @@ export function step(state) {
     food,
     speed: speedFor(totalScore(next)),
     status: full ? "over" : state.status,
-    result: full && state.players === 2 ? "draw" : state.result,
+    result: full && state.players === 2 ? tiebreakByScore(next.snakes) : state.result,
   };
+}
+
+function tiebreakByScore(snakes) {
+  const [s1, s2] = snakes;
+  if (s1.score > s2.score) return "p1";
+  if (s2.score > s1.score) return "p2";
+  return "draw";
 }
 
 function resultOf(state, dies) {
   if (state.players !== 2) return null;
-  if (dies[0] && dies[1]) return "draw";
+  if (dies[0] && dies[1]) {
+    return tiebreakByScore(state.snakes);
+  }
   return dies[0] ? "p2" : "p1";
 }
 
