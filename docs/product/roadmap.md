@@ -17,8 +17,8 @@ abrir, jugar, batir tu récord. Nada más, y nada menos.
 
 ## Estado actual
 
-La v0.1 está implementada en `develop`: el juego completo, a falta de publicarlo en
-Vercel. Ver `specs/0001-juego-base/`.
+La v0.1 está publicada en https://snake-app-mu.vercel.app. La v0.2 (laberintos y dos
+jugadores) está implementada en `develop`, a falta de release.
 
 ## Por versión / fase
 
@@ -50,7 +50,7 @@ Reglas de juego decididas (2026-10-13), que la referencia no muestra:
 - [x] ✅ Menú de inicio dentro de la pantalla LCD, con flechas o el dedo. (`specs/0003-laberintos/`)
 - [x] ✅ Laberintos fijos con muros, a elegir antes de jugar. (`specs/0003-laberintos/`)
 - [x] ✅ Récord separado por laberinto. (`specs/0003-laberintos/`)
-- [ ] 📋 Dos jugadores a la vez con el mismo teclado (WASD y flechas), solo en escritorio. (`specs/0004-multijugador-local/`)
+- [x] ✅ Dos jugadores a la vez con el mismo teclado (WASD y flechas), solo en escritorio. (`specs/0004-multijugador-local/`)
 
 Decisiones de producto (2026-10-13):
 

@@ -29,7 +29,7 @@ graph TD
 
 | Componente   | Responsabilidad                                                                                                                      | Tecnología                    |
 | ------------ | ------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------- |
-| `game.js`    | Estado de la partida y sus reglas: mover, crecer, comer, chocar, subir velocidad. **Sin DOM**                                        | JavaScript puro               |
+| `game.js`    | Estado de la partida y sus reglas: mover, crecer, comer, chocar, subir velocidad, para una o dos serpientes. **Sin DOM**             | JavaScript puro               |
 | `render.js`  | Dibuja un estado en el canvas: fondo LCD, puntos de la serpiente y la comida, y los números del marcador como mapa de bits de puntos | Canvas 2D                     |
 | `main.js`    | Arranca la página, lleva el menú de inicio, traduce teclado y gestos a direcciones y avanza el juego a ritmo de la velocidad         | DOM + `requestAnimationFrame` |
 | `mazes.js`   | Los laberintos como datos: filas de texto, `#` = muro. Validados por `tests/mazes.test.js`                                           | Datos                         |
@@ -49,6 +49,11 @@ graph TD
 > ADRs en [`../decisions/`](../decisions/README.md).
 
 ## Reglas no negociables
+
+- El estado guarda siempre una **lista de serpientes**, también con un jugador. Las
+  reglas se escriben una vez para N serpientes (spec 0004).
+- En cada paso, los choques se resuelven **a la vez**, con el estado de antes del paso:
+  ninguna serpiente gana por moverse primero.
 
 - `game.js` no toca el DOM, `window` ni `localStorage`. Si una regla del juego necesita
   algo del navegador, lo recibe como parámetro.

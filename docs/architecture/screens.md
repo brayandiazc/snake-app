@@ -31,13 +31,13 @@ la barra de marcador (Score · Speed · Record) está siempre visible. Los cuatr
 de datos de `ui.md` (carga, vacío, error, éxito) no aplican: no hay datos que cargar, y
 si el almacenamiento falla el juego sigue sin récord persistente.
 
-| Vista             | Ruta | Propósito                                                               | Estado    |
-| ----------------- | ---- | ----------------------------------------------------------------------- | --------- |
-| Menú de inicio    | `/`  | Elegir laberinto y empezar; el laberinto elegido se ve de fondo         | conectada |
-| Juego — en espera | `/`  | Tablero vacío con la serpiente inicial y «pulsa una tecla para empezar» | conectada |
-| Juego — jugando   | `/`  | La partida: serpiente, comida y marcador en vivo                        | conectada |
-| Juego — en pausa  | `/`  | Tablero congelado y aviso de pausa                                      | conectada |
-| Juego — fin       | `/`  | Puntuación final, aviso de récord nuevo y cómo volver a jugar           | conectada |
+| Vista             | Ruta | Propósito                                                                                   | Estado    |
+| ----------------- | ---- | ------------------------------------------------------------------------------------------- | --------- |
+| Menú de inicio    | `/`  | Elegir laberinto y jugadores (en escritorio) y empezar; el laberinto elegido se ve de fondo | conectada |
+| Juego — en espera | `/`  | Tablero vacío con la serpiente inicial y «pulsa una tecla para empezar»                     | conectada |
+| Juego — jugando   | `/`  | La partida: serpiente, comida y marcador en vivo                                            | conectada |
+| Juego — en pausa  | `/`  | Tablero congelado y aviso de pausa                                                          | conectada |
+| Juego — fin       | `/`  | Puntuación final o ganador (J1, J2 o empate), aviso de récord nuevo y cómo volver a jugar   | conectada |
 
 ## Mapa de navegación
 

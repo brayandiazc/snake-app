@@ -51,6 +51,12 @@ La fila de Jugadores aparece si `matchMedia("(any-pointer: fine) and (any-hover:
 hover)")` se cumple, es decir, si hay ratón o trackpad. Es una aproximación a «tiene
 teclado»: una tablet con teclado y trackpad la verá, y está bien.
 
+### Avisos con la partida congelada
+
+En pausa y al terminar, el aviso va en un recuadro ajustado al texto y centrado: sin
+él, «¡Gana J2!» se montaba sobre las serpientes. En espera sigue sin recuadro, para no
+tapar las salidas. Añadido durante la implementación, al verlo en pantalla.
+
 ## Alternativas consideradas
 
 | Alternativa                                     | Por qué no                                                        |

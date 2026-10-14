@@ -1,6 +1,6 @@
 # Propuesta — Multijugador local
 
-- **Estado**: Borrador
+- **Estado**: Implementada
 - **Fecha**: 2026-10-13
 - **Autor**: Brayan Diaz C
 - **Ítem de roadmap**: v0.2 → Dos jugadores a la vez con el mismo teclado (WASD y
