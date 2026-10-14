@@ -7,6 +7,8 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-10-13
+
 ### Added
 
 - **El juego, v0.1** ([spec 0001](specs/0001-juego-base/)): réplica fiel del Snake de
@@ -21,3 +23,6 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 - Repositorio público en GitHub con `develop` como rama por defecto, labels, topics,
   squash merge y protección de `main` y `develop` (PR obligatorio y checks `Calidad` y
   `Gitleaks`).
+
+[Unreleased]: https://github.com/brayandiazc/snake-app/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/brayandiazc/snake-app/releases/tag/v0.1.0
