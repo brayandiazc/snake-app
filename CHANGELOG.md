@@ -7,6 +7,13 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ## [Unreleased]
 
+### Fixed
+
+- **Al compartir el enlace no salía la imagen**: `og:image` era una ruta relativa y las
+  redes sociales la exigen absoluta. Se añaden también `canonical`, `og:url` y
+  `sitemap.xml` con la URL de producción, https://snake-app-mu.vercel.app
+  ([spec 0002](specs/0002-seo-url-produccion/)).
+
 ## [0.1.0] - 2026-10-13
 
 ### Added
